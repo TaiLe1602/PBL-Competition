@@ -18,27 +18,22 @@ void setup() {
   pinMode(motorBEnablePin, OUTPUT);
   pinMode(motorBPin1, OUTPUT);
   pinMode(motorBPin2, OUTPUT);
-
+  
+  // Initialize motors to stop
+  digitalWrite(motorAEnablePin, LOW);
+  digitalWrite(motorAPin1, LOW);
+  digitalWrite(motorAPin2, LOW);
+  digitalWrite(motorBEnablePin, LOW);
+  digitalWrite(motorBPin1, LOW);
+  digitalWrite(motorBPin2, LOW);
 }
 
 void loop() {
-  // Move Motor A forward and Motor B backward
-  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
-  digitalWrite(motorAPin1, HIGH);     // Set direction
-  digitalWrite(motorAPin2, LOW);
+  
+}
 
-  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
-  digitalWrite(motorBPin1, LOW);      // Set direction
-  digitalWrite(motorBPin2, HIGH);
-
-  delay(2000); // Run motors for 2 seconds
-
-  // Stop both motors
-  digitalWrite(motorAEnablePin, LOW); // Disable Motor A
-  digitalWrite(motorBEnablePin, LOW); // Disable Motor B
-
-  delay(1000); // Pause for 1 second
-
+void TurnRight()
+{
   // Move Motor A backward and Motor B forward
   digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
   digitalWrite(motorAPin1, LOW);      // Set direction
@@ -47,40 +42,34 @@ void loop() {
   digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
   digitalWrite(motorBPin1, HIGH);     // Set direction
   digitalWrite(motorBPin2, LOW);
-
-  delay(2000); // Run motors for 2 seconds
-
-  // Stop both motors
-  digitalWrite(motorAEnablePin, LOW); // Disable Motor A
-  digitalWrite(motorBEnablePin, LOW); // Disable Motor B
-
-  delay(1000); // Pause for 1 second
 }
 
-void MoveRight()
+void TurnLeft()
 {
+  // Move Motor A forward and Motor B backward
+  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  digitalWrite(motorAPin1, HIGH);     // Set direction
+  digitalWrite(motorAPin2, LOW);
 
-}
-
-void MoveLeft()
-{
-
+  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  digitalWrite(motorBPin1, LOW);      // Set direction
+  digitalWrite(motorBPin2, HIGH);
 }
 
 void MoveForward()
 {
+  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  digitalWrite(motorAPin1, LOW);      // Set direction
+  digitalWrite(motorAPin2, HIGH);
 
+  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  digitalWrite(motorBPin1, LOW);     // Set direction
+  digitalWrite(motorBPin2, HIGH);
 }
 
 void Stop()
 {
-
-  // Initialize motors to stop
-  digitalWrite(motorAEnablePin, LOW);
-  digitalWrite(motorAPin1, LOW);
-  digitalWrite(motorAPin2, LOW);
-  digitalWrite(motorBEnablePin, LOW);
-  digitalWrite(motorBPin1, LOW);
-  digitalWrite(motorBPin2, LOW);
+  digitalWrite(motorAEnablePin, LOW); // Disable Motor A
+  digitalWrite(motorBEnablePin, LOW); // Disable Motor B
 }
 }
