@@ -34,7 +34,7 @@ void loop() {
   TurnRight();
 }
 
-void TurnRight()
+void TurnLeft()
 {
   // Move Motor A backward and Motor B forward
   digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
@@ -46,7 +46,7 @@ void TurnRight()
   digitalWrite(motorBPin2, LOW);
 }
 
-void TurnLeft()
+void TurnRight()
 {
   // Move Motor A forward and Motor B backward
   digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
@@ -67,6 +67,17 @@ void MoveForward()
   digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
   digitalWrite(motorBPin1, LOW);     // Set direction
   digitalWrite(motorBPin2, HIGH);
+}
+
+void MoveForward()
+{
+  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  digitalWrite(motorAPin1, HIGH);      // Set direction
+  digitalWrite(motorAPin2, LOW);
+
+  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  digitalWrite(motorBPin1, HIGH);     // Set direction
+  digitalWrite(motorBPin2, LOW);
 }
 
 void Stop()
