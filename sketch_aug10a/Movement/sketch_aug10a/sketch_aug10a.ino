@@ -29,7 +29,9 @@ void setup() {
 }
 
 void loop() {
-  
+  MoveForward();
+  delay(1000);
+  TurnRight();
 }
 
 void TurnRight()
