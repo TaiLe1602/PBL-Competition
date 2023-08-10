@@ -1,5 +1,5 @@
-int TrigPin = 3;
-int EchoPin = 2;
+int TrigPin = 2;
+int EchoPin = 3;
 double distance, t;
 void setup(){
   Serial.begin(9600);
@@ -12,7 +12,7 @@ void loop(){
   Serial.print("\n");
   t = pulseIn(EchoPin,HIGH);
   distance = t/58.3;
-  Serial.print((int)distance);
+  Serial.print(distance);
   Serial.print("\n");
   delay(1000);
   }

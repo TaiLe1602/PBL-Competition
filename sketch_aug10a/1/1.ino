@@ -26,8 +26,8 @@ void loop() {
     turn = 0;
   }
  // if (turn < 0) {
-    //moveRobot(-80, 170);
-  //}
+    moveRobot(-80, 170);
+  //
   //else if (turn > 0) {
   //  moveRobot(170, -80);
   //}
@@ -36,27 +36,6 @@ void loop() {
   //}
   delay(1);
 }
-
-/*
-void loop() {
-  int blocks = pixy.ccc.getBlocks();
-
-  if (blocks) {
-    for (int i = 0; i < blocks; i++) {
-      Serial.print("Block ");
-      Serial.print(i);
-      Serial.print(": X=");
-      Serial.print(pixy.ccc.blocks[i].m_x);
-      Serial.print(" Y=");
-      Serial.print(pixy.ccc.blocks[i].m_y);
-      Serial.print(" Width=");
-      Serial.print(pixy.ccc.blocks[i].m_width);
-      Serial.print(" Height=");
-      Serial.println(pixy.ccc.blocks[i].m_height);
-    }
-  }
-}
-*/
 
 float pixyCheck() {
   static int i = 0;
