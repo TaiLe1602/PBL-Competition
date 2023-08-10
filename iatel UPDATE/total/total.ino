@@ -11,8 +11,8 @@ const int motorBEnablePin = 6;   // Enable pin for Motor B
 const int motorBPin1 = 7;        // Control pin 1 for Motor B
 const int motorBPin2 = 8;        // Control pin 2 for Motor B
 // Define ultrasonic control pins
-int TrigPin = 2;
-int EchoPin = 3;
+int TrigPin = 12;
+int EchoPin = 13;
 
 
 void setup() {
