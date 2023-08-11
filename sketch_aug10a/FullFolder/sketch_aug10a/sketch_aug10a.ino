@@ -1,5 +1,5 @@
 #include <SPI.h>
-#include "MoveScan.h";
+#include <Servo.h>
 
 //left = A
 //right = B
@@ -14,6 +14,14 @@ const int motorBEnablePin = 6;   // Enable pin for Motor B
 const int motorBPin1 = 7;        // Control pin 1 for Motor B
 const int motorBPin2 = 8;        // Control pin 2 for Motor B
 
+// Define motor control pins for Motor C
+Servo myServo;
+const int defaultAngle = 90;
+
+// Distance Values
+float lastDistance = 0;
+const float goalDistance = 5;
+
 void setup() {
   // Set the motor control pins as outputs for Motor A
   pinMode(motorAEnablePin, OUTPUT);
@@ -24,6 +32,9 @@ void setup() {
   pinMode(motorBEnablePin, OUTPUT);
   pinMode(motorBPin1, OUTPUT);
   pinMode(motorBPin2, OUTPUT);
+
+  // Set the motor control pins for Motor C
+  myServo.write(defaultAngle);
   
   // Initialize motors to stop
   Serial.begin(115200);
@@ -49,6 +60,39 @@ void loop() {
   Left(475);
   Forward(1000);
   Stop(500);
+}
+
+void TravelHalfTo(float distance)
+{
+  //Travel half the distance from the ball to the car
+  if(distance == lastDistance/2)
+  {
+    lastDistance = distance;
+    //Scan and Readjust Here
+  }
+
+ //If too close to the ball, forward
+ if(distance < goalDistance)
+ {
+  //Move Back 5 ms?
+ }
+ //If too far from the ball, forward
+ if(distance > goalDistance)
+ {
+  //Move Forward 5 ms?
+ }
+ //Set this to a Distance Range maybe instead like "if between 2.3 meters and 2.6 meters, the range should be around the size of the ball
+ if(distance == goalDistance)
+ {
+  //Catch
+  Catch();
+ }
+}
+
+void Catch(int time = 1000)
+{
+  myServo.write(180);
+  delay(time);
 }
 
 //Working
