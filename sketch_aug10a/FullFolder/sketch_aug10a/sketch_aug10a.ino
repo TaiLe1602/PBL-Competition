@@ -66,12 +66,10 @@ void RightBack(int);
 void FastLeft(int);
 void FastRight(int);
 void Stop(int);
-void Catch(int);
+void Catch(int m_Time, float ratioA, float ratioB);
 
 void loop() {
-  Serial.print("The Rotation of Servo is ");
-  myServo.write(135);
-  Serial.print(myServo.read() + " \n");
+  Catch(1000, 1, 0.18f);
 }
 
 void MoveBackUntil(int angle)
@@ -126,16 +124,12 @@ void LightUp()
 // }
 //}
 
-void MathIsTooHard(int m_Time = 1000, int angle = 90)
+void Catch(int m_Time = 1000, float ratioA = 1, float ratioB = 1)
 {
-  myServo.write(90 + angle);
+  myServo.write(90 - ratioA * 90);
   delay(m_Time);
-}
-
-void Catch(int m_Time = 1000)
-{
-  myServo.write(30);
-  delay(m_Time);
+  myServo.write(90 + ratioB * 90);
+  delay(m_Time * (1 + ratioB) * 2);
 }
 
 void ResetAngle(int m_Time = 1000)
