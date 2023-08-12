@@ -22,7 +22,6 @@ Servo myServo;
 
 // Car Back Bumper Sensor
 // Limit Switch
-
 //DEFINE THESE AT SOME POINT YOU BETTER NOT IGNORE THEM IM GONNA MAKE SURE YOU DON'T IGNORE THEM KDAJFLDJFKLDAJFKLDASJFLKDAJFLKDAJFLKDJAFLKDSJAFLDJSAKFDA
 //const int limitSwitchPin;
 
@@ -69,25 +68,7 @@ void Stop(int);
 void Catch(int m_Time, float ratioA, float ratioB);
 
 void loop() {
-  Catch(1000, 1, 0.18f);
-}
-
-void MoveBackUntil(int angle)
-{
-  while( myServo.read() != angle)
-  {
-    myServo.write(135);
-    Serial.write(myServo.read());
-  }
-}
-
-void MoveForwardUntil(int angle)
-{
-  while(myServo.read() != angle)
-  {
-    myServo.write(45);
-    Serial.write(myServo.read());
-  }
+  SimpleCatch();
 }
 
 //bool BumperHit => digitalRead(limitSwitchPin) == HIGH ? true : false;
@@ -124,15 +105,27 @@ void LightUp()
 // }
 //}
 
-void Catch(int m_Time = 1000, float ratioA = 1, float ratioB = 1)
+/*void Catch(int m_Time = 1000, float ratioA = 1, float ratioB = 1)
 {
   myServo.write(90 - ratioA * 90);
   delay(m_Time);
   myServo.write(90 + ratioB * 90);
   delay(m_Time * (1 + ratioB) * 2);
+}*/
+
+void SimpleCatch()
+{
+  myServo.write(90);
+  delay(1000);
+  myServo.write(160);
+  delay(400);
+  myServo.write(90);
+  delay(2000);
+  myServo.write(40);
+  delay(400);
 }
 
-void ResetAngle(int m_Time = 1000)
+void CatchTwo(int m_Time = 1000)
 {
   
 }
