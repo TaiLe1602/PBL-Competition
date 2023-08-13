@@ -76,31 +76,37 @@ void loop() {
   //digitalWrite(TrigPin, HIGH);
   //digitalWrite(TrigPin, LOW);
   
-  delay(3000);
+  // delay(1000);
   SimpleCatch();
-  delay(1000);
-  Deposit();
 }
 
 void SimpleCatch()
 {  
-  myServo.write(90);
-  Serial.write("90 ");
+  // myServo.write(90);
+  // Serial.write("90 ");
+  // delay(1000);
+  // //Down
+  // myServo.write(150);
+  // Serial.write("160 ");
+  // delay(400);
+  // myServo.write(90);
+  // Serial.write("90 ");
+  // delay(2000);
+  // //Up
+  // myServo.write(50);
+  // Serial.write("50 ");
+  // delay(400);
+  // myServo.write(90);
+  // Serial.write("90 ");
+  // delay(4000);
+  myServo.write(180);
+  delay(500);
+  // myServo.write(90);
+  // delay(1);
+  myServo.write(0);
   delay(1000);
-  //Down
-  myServo.write(150);
-  Serial.write("160 ");
-  delay(400);
   myServo.write(90);
-  Serial.write("90 ");
-  delay(2000);
-  //Up
-  myServo.write(50);
-  Serial.write("50 ");
-  delay(400);
-  myServo.write(90);
-  Serial.write("90 ");
-  delay(4000);
+  while(1);
 }
 
 void Deposit()

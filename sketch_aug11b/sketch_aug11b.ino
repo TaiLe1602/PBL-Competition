@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include <math.h>
-
+#include <Pixy2.h>
+Pixy2 pixy2;
 float mapfloat(long,long,long,long,long);
 
 const int motorAEnablePin = 11;   // Enable pin for Motor A
@@ -13,6 +14,8 @@ const int motorBPin1 = 7;        // Control pin 1 for Motor B
 const int motorBPin2 = 8;        
 int TrigPin = 2;
 int EchoPin = 3;
+
+
 
 float threshold = 0.15;
 int basespeed = 127;
@@ -32,7 +35,15 @@ void Left(int time = 1000)
   digitalWrite(motorBPin2, HIGH);
   delay(time);
   }
-
+void MoveForward()
+{
+  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  digitalWrite(motorAPin1, LOW);      // Set direction
+  digitalWrite(motorAPin2, HIGH);
+  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  digitalWrite(motorBPin1, LOW);     // Set direction
+  digitalWrite(motorBPin2, HIGH);
+  delay(1000);
 void Right(int time = 1000)
 {
   // Move Motor A forward and Motor B backward
@@ -85,7 +96,7 @@ void Stop(int time = 1000)
 }
 void setup() {
   Serial.begin(9600);
-   pinMode(motorAEnablePin, OUTPUT);
+  pinMode(motorAEnablePin, OUTPUT);
   pinMode(motorAPin1, OUTPUT);
   pinMode(motorAPin2, OUTPUT);
 
@@ -101,6 +112,7 @@ void setup() {
 }
 
 void loop() {
+  Forward();
   /*
   if (turn < 0) {
     moveRobot(-80, 170);
@@ -111,7 +123,7 @@ void loop() {
   else {
     moveRobot(70, 70);
   }
-  */
+  
    float k=48.687;
     float theta = 20;
     float delay1 = theta * k;
@@ -152,7 +164,7 @@ void loop() {
         Right((int)turn_angle * k);
         Stop();
       }
-  delay(1);
+  delay(1);*/
 }
 
 float mapfloat(long x, long in_min, long in_max, long out_min, long out_max) {
