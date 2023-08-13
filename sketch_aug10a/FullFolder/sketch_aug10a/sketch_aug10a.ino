@@ -16,6 +16,10 @@ const int motorBEnablePin = 7;   // Enable pin for Motor B
 const int motorBPin1 = 6;        // Control pin 1 for Motor B
 const int motorBPin2 = 8;        // Control pin 2 for Motor 
 
+// Distance Sensors
+int TrigPin = 12;
+int EchoPin = 13;
+  
 // Arm Catching Motor
 // Define motor control pins for Motor C; The Servo motor
 Servo myServo;
@@ -43,8 +47,9 @@ void setup() {
   // Set the motor control pins for Motor C
   myServo.attach(5);
 
-  // Set the Limit Switch Pins as Input
-  //pinMode(limitSwitchPin, INPUT);
+  // Set ultrasonic Sensor pins to In/Out
+  pinMode(TrigPin, OUTPUT);
+  pinMode(EchoPin, INPUT);
   
   // Initialize motors to stop
   Serial.begin(115200);
@@ -68,9 +73,8 @@ void Stop(int times);
 void Catch(int m_Time, float ratioA, float ratioB);
 
 void loop() {
-
-  Forward(1000, 100);
-  FastRight(500, 100);
+  //digitalWrite(TrigPin, HIGH);
+  //digitalWrite(TrigPin, LOW);
   
   delay(3000);
   SimpleCatch();
