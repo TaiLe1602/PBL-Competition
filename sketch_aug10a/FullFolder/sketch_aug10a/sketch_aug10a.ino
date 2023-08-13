@@ -12,9 +12,9 @@ const int motorAPin2 = 9;       // Control pin 2 for Motor A
 
 // Right Wheel : Front
 // Define motor control pins for Motor B
-const int motorBEnablePin = 6;   // Enable pin for Motor B
-const int motorBPin1 = 7;        // Control pin 1 for Motor B
-const int motorBPin2 = 8;        // Control pin 2 for Motor B
+const int motorBEnablePin = 7;   // Enable pin for Motor B
+const int motorBPin1 = 6;        // Control pin 1 for Motor B
+const int motorBPin2 = 8;        // Control pin 2 for Motor 
 
 // Arm Catching Motor
 // Define motor control pins for Motor C; The Servo motor
@@ -41,7 +41,7 @@ void setup() {
   pinMode(motorBPin2, OUTPUT);
 
   // Set the motor control pins for Motor C
-  myServo.attach(9);
+  myServo.attach(5);
 
   // Set the Limit Switch Pins as Input
   //pinMode(limitSwitchPin, INPUT);
@@ -56,73 +56,63 @@ void setup() {
   digitalWrite(motorBPin2, LOW);
 }
 
-void Left(int);
-void Right(int);
-void Forward(int);
-void Back(int);
-void LeftBack(int);
-void RightBack(int);
-void FastLeft(int);
-void FastRight(int);
-void Stop(int);
+void Left(int times, int speeds);
+void Right(int times, int speeds);
+void Forward(int times, int speeds);
+void Back(int times, int speeds);
+void LeftBack(int times, int speeds);
+void RightBack(int times, int speeds);
+void FastLeft(int times, int speeds);
+void FastRight(int times, int speeds);
+void Stop(int times);
 void Catch(int m_Time, float ratioA, float ratioB);
 
 void loop() {
+
+  Forward(1000, 100);
+  FastRight(500, 100);
+  
+  delay(3000);
   SimpleCatch();
+  delay(1000);
+  Deposit();
 }
-
-//bool BumperHit => digitalRead(limitSwitchPin) == HIGH ? true : false;
-
-void LightUp()
-{
-  digitalWrite(LED_BUILTIN, HIGH);
-}
-
-//void TravelHalfTo(float distance)
-//{
-//  //Travel half the distance from the ball to the car
-//  if(distance == lastDistance/2)
-//  {
-//    lastDistance = distance;
-//    //Scan and Readjust Here
-//  }
-//
-// //If too close to the ball, forward
-// if(distance < goalDistance)
-// {
-//  //Move Back 5 ms?
-// }
-// //If too far from the ball, forward
-// if(distance > goalDistance)
-// {
-//  //Move Forward 5 ms?
-// }
-// //Set this to a Distance Range maybe instead like if between 2.3 meters and 2.6 meters, the range should be around the size of the ball
-// if(distance == goalDistance)
-// {
-//  //Catch
-//  Catch(1000);
-// }
-//}
-
-/*void Catch(int m_Time = 1000, float ratioA = 1, float ratioB = 1)
-{
-  myServo.write(90 - ratioA * 90);
-  delay(m_Time);
-  myServo.write(90 + ratioB * 90);
-  delay(m_Time * (1 + ratioB) * 2);
-}*/
 
 void SimpleCatch()
-{
+{  
   myServo.write(90);
+  Serial.write("90 ");
   delay(1000);
-  myServo.write(160);
+  //Down
+  myServo.write(150);
+  Serial.write("160 ");
   delay(400);
+  myServo.write(90);
+  Serial.write("90 ");
+  delay(2000);
+  //Up
+  myServo.write(50);
+  Serial.write("50 ");
+  delay(400);
+  myServo.write(90);
+  Serial.write("90 ");
+  delay(4000);
+}
+
+void Deposit()
+{
+  //Up
+  myServo.write(90);
+  delay(500);
+  myServo.write(45);
+  delay(450);
   myServo.write(90);
   delay(2000);
-  myServo.write(40);
-  delay(400);
+  //Down
+  myServo.write(155);
+  delay(500);
+  myServo.write(90);
+  delay(500);
 }
 
 void CatchTwo(int m_Time = 1000)
@@ -131,107 +121,131 @@ void CatchTwo(int m_Time = 1000)
 }
 
 //Working
-void FastLeft(int m_Time = 1000)
+void FastLeft(int m_Time = 1000, int mSpeeds = 100)
 {
+  analogWrite(motorAEnablePin, mSpeeds);
+  analogWrite(motorBEnablePin, mSpeeds);
+  
   // Move Motor A backward and Motor B forward
-  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  //digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
   digitalWrite(motorAPin1, HIGH);      // Set direction
   digitalWrite(motorAPin2, LOW);
   
-  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  //digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
   digitalWrite(motorBPin1, HIGH);      // Set direction
   digitalWrite(motorBPin2, LOW);
   delay(m_Time);
 }
 
 //Working
-void FastRight(int m_Time = 1000)
+void FastRight(int m_Time = 1000, int mSpeeds = 100)
 {
+  analogWrite(motorAEnablePin, mSpeeds);
+  analogWrite(motorBEnablePin, mSpeeds);
+  
   // Move Motor A backward and Motor B forward
-  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  //digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
   digitalWrite(motorAPin1, LOW);      // Set direction
   digitalWrite(motorAPin2, HIGH);
   
-  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  //digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
   digitalWrite(motorBPin1, LOW);      // Set direction
   digitalWrite(motorBPin2, HIGH);
   delay(m_Time);
 }
 
-void Left(int m_Time = 1000)
+void Left(int m_Time = 1000, int mSpeeds = 100)
 {
-  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  analogWrite(motorAEnablePin, mSpeeds);
+  analogWrite(motorBEnablePin, mSpeeds);
+  
+  //digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
   digitalWrite(motorAPin1, LOW);      // Set direction
   digitalWrite(motorAPin2, HIGH);
 
-  digitalWrite(motorBEnablePin, LOW); // Enable Motor B
+  //(motorBEnablePin, LOW); // Enable Motor B
   digitalWrite(motorBPin1, LOW);     // Set direction
   digitalWrite(motorBPin2, HIGH);
   delay(m_Time);
 }
 
 
-void LeftBack(int m_Time = 1000)
+void LeftBack(int m_Time = 1000, int mSpeeds = 100)
 {
+  analogWrite(motorAEnablePin, mSpeeds);
+  analogWrite(motorBEnablePin, mSpeeds);
+  
   // Move Motor A backward and Motor B forward
-  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  //digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
   digitalWrite(motorAPin1, HIGH);      // Set direction
   digitalWrite(motorAPin2, LOW);
 
-  digitalWrite(motorBEnablePin, LOW); // Enable Motor B
+  //digitalWrite(motorBEnablePin, LOW); // Enable Motor B
   digitalWrite(motorBPin1, HIGH);     // Set direction
   digitalWrite(motorBPin2, LOW);
   delay(m_Time);
 }
 
 
-void RightBack(int m_Time = 1000)
+void RightBack(int m_Time = 1000, int mSpeeds = 100)
 {
+  analogWrite(motorAEnablePin, mSpeeds);
+  analogWrite(motorBEnablePin, mSpeeds);
+  
   // Move Motor A forward and Motor B backward
-  digitalWrite(motorAEnablePin, LOW); // Enable Motor A
+  //digitalWrite(motorAEnablePin, LOW); // Enable Motor A
   digitalWrite(motorAPin1, LOW);     // Set direction
   digitalWrite(motorAPin2, HIGH);
 
-  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  //digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
   digitalWrite(motorBPin1, LOW);      // Set direction
   digitalWrite(motorBPin2, HIGH);
   delay(m_Time);
 }
 
 
-void Right(int m_Time = 1000)
+void Right(int m_Time = 1000, int mSpeeds = 100)
 {
-  digitalWrite(motorAEnablePin, LOW); // Enable Motor A
+  analogWrite(motorAEnablePin, mSpeeds);
+  analogWrite(motorBEnablePin, mSpeeds);
+  
+  //digitalWrite(motorAEnablePin, LOW); // Enable Motor A
   digitalWrite(motorAPin1, LOW);      // Set direction
   digitalWrite(motorAPin2, HIGH);
 
-  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  //digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
   digitalWrite(motorBPin1, LOW);     // Set direction
   digitalWrite(motorBPin2, HIGH);
   delay(m_Time);
 }
 
 //Working
-void Forward(int m_Time = 1000)
+void Forward(int m_Time = 1000, int mSpeeds = 100)
 {
-  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  analogWrite(motorAEnablePin, mSpeeds);
+  analogWrite(motorBEnablePin, mSpeeds);
+  
+  //digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
   digitalWrite(motorAPin1, LOW);      // Set direction
   digitalWrite(motorAPin2, HIGH);
 
-  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  //digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
   digitalWrite(motorBPin1, HIGH);     // Set direction
   digitalWrite(motorBPin2, LOW);
   delay(m_Time);
 }
 
 //Working
-void Back(int m_Time = 1000)
+void Back(int m_Time = 1000, int mSpeeds = 100)
 {
-  digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
+  analogWrite(motorAEnablePin, mSpeeds);
+  analogWrite(motorBEnablePin, mSpeeds);
+  
+  //digitalWrite(motorAEnablePin, HIGH); // Enable Motor A
   digitalWrite(motorAPin1, HIGH);      // Set direction
   digitalWrite(motorAPin2, LOW);
 
-  digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
+  //digitalWrite(motorBEnablePin, HIGH); // Enable Motor B
   digitalWrite(motorBPin1, LOW);     // Set direction
   digitalWrite(motorBPin2, HIGH);
   delay(m_Time);

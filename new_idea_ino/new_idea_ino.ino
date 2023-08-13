@@ -1,5 +1,18 @@
 #include <Pixy2.h>
 Pixy2 pixy;
+
+class Vector2
+{
+  public:
+    Vector2(float mx, float my)
+    {
+      x = mx;
+      y = my;
+    }
+   float x;
+   float y;
+};
+
 const int motorAEnablePin = 11;   // Enable pin for Motor A
 const int motorAPin1 = 10;       // Control pin 1 for Motor A
 const int motorAPin2 = 9;       // Control pin 2 for Motor A
@@ -11,6 +24,13 @@ const int motorBPin2 = 8;        // Control pin 2 for Motor B
 // Define ultrasonic control pins
 int TrigPin = 12;
 int EchoPin = 13;
+
+//Dead Zone
+float upperBoundY = 206;
+float lowerBoundY = 178;
+
+float upperBoundX = 120;
+float lowerBoundX = 78;
 
 int catching_distance;
 
@@ -47,14 +67,14 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  while(pixyCheck() > 0.1){    
-    Right(1000);
+  if (pixyCheck() > 0.1){    
+    Serial.write("Right + " + (int)pixyCheck());
   }
-  while(pixyCheck() < -0.1){
-    Left(1000);
+  if(pixyCheck() < -0.1){
+    Serial.write("Left: " + (int)pixyCheck());
   }
-  while(Ultrasonic_distance() > catching_distance){
-    Forward(int time = 1000)
+  if(Ultrasonic_distance() > catching_distance){
+    Serial.write("Forward Distance: " + (int)Ultrasonic_distance());
   }
 }
 
@@ -62,9 +82,9 @@ int Ultrasonic_distance(){
   digitalWrite(TrigPin, HIGH);
   digitalWrite(TrigPin, LOW);
   Serial.print("\n");
-  t = pulseIn(EchoPin,HIGH);
-  distance = t/58.3;
-  return distance();
+  float t = pulseIn(EchoPin, HIGH);
+  float distance = t/58.3;
+  return distance;
 }
 
 void Left(int time = 1000)
@@ -128,18 +148,30 @@ float pixyCheck() {
   uint16_t blocks;
   blocks = pixy.ccc.getBlocks();
   if (blocks) {
+    // the signature is the first block
+    // same stuff for the rest
+    
     int signature = pixy.ccc.blocks[0].m_signature;
     int height = pixy.ccc.blocks[0].m_height;
     int width = pixy.ccc.blocks[0].m_width;
     int x = pixy.ccc.blocks[0].m_x;
     int y = pixy.ccc.blocks[0].m_y;
+
+    // Bottom Right corner
     int cx = (x + (width / 2));
     int cy = (y + (height / 2));
+
+    // Black Magic
     cx = mapfloat(x, 0, 320, -1, 1);
     cy = mapfloat(y, 0, 200, 1, -1);
     int area = width * height;
     return cx;
   }
+}
+
+float distFromCentre()
+{
+  
 }
 
 float mapfloat(long x, long in_min, long in_max, long out_min, long out_max) {
