@@ -16,6 +16,9 @@ const int motorBEnablePin = 7;   // Enable pin for Motor B
 const int motorBPin1 = 6;        // Control pin 1 for Motor B
 const int motorBPin2 = 8;        // Control pin 2 for Motor 
 
+// Define the pins for the limit switch and an LED (optional)
+const int limitSwitchPin = 5;  // Change this to the pin you've connected the limit switch to
+
 // Distance Sensors
 int TrigPin = 12;
 int EchoPin = 13;
@@ -23,6 +26,10 @@ int EchoPin = 13;
 // Arm Catching Motor
 // Define motor control pins for Motor C; The Servo motor
 Servo myServo;
+const int servoPin = 5;
+
+// Define Compass Class
+//QMC5883LCompass compass;
 
 // Car Back Bumper Sensor
 // Limit Switch
@@ -45,12 +52,20 @@ void setup() {
   pinMode(motorBPin2, OUTPUT);
 
   // Set the motor control pins for Motor C
-  myServo.attach(5);
+  myServo.attach(servoPin);
 
   // Set ultrasonic Sensor pins to In/Out
   pinMode(TrigPin, OUTPUT);
   pinMode(EchoPin, INPUT);
   
+  // Set the Pins
+  pinMode(limitSwitchPin, INPUT);  // Set the limit switch pin as an input
+  pinMode(LED_BUILTIN, OUTPUT);         // Set the LED pin as an output
+  digitalWrite(LED_BUILTIN, LOW);      // Turn off the LED initially
+
+  // Initialize Compass
+  //scompass.init();
+
   // Initialize motors to stop
   Serial.begin(115200);
   digitalWrite(motorAEnablePin, LOW);
@@ -73,50 +88,66 @@ void Stop(int times);
 void Catch(int m_Time, float ratioA, float ratioB);
 
 void loop() {
-  //digitalWrite(TrigPin, HIGH);
-  //digitalWrite(TrigPin, LOW);
+
   
-  delay(3000);
-  SimpleCatch();
-  delay(1000);
-  Deposit();
+  
+  // Read Compass Numbers
+  // compass.read();
+
+  // byte a = compass.getAzimuth();
+  // // Output here will be a value from 0 - 15 based on the direction of the bearing / azimuth.
+  // byte b = compass.getBearing(a);
+  
+  // Serial.print("B: ");
+  // Serial.print(b);
+  // Serial.println();
+  
+  // delay(250);
+
+  // //digitalWrite(TrigPin, HIGH);
+  // //digitalWrite(TrigPin, LOW);
+
+  int limitSwitchState = digitalRead(limitSwitchPin);  // Read the state of the limit switch
+  
+  if (limitSwitchState == HIGH) {
+    digitalWrite(LED_BUILTIN, HIGH);  // Turn on the LED when the limit switch is activated
+    Serial.println("Limit switch activated!");
+  } else {
+    digitalWrite(LED_BUILTIN, LOW);   // Turn off the LED when the limit switch is not activated
+  }
+  
+  // if(Ultrasonic_distance() > catching_distance){
+  //   Serial.write("Forward Distance: " + (int)Ultrasonic_distance());
+  // }
+  
+  // delay(3000);
+  // SimpleCatch();
+  // delay(1000);
+  // Deposit();
 }
 
 void SimpleCatch()
 {  
+  //Rest Position
   myServo.write(90);
   Serial.write("90 ");
   delay(1000);
   //Down
-  myServo.write(150);
-  Serial.write("160 ");
-  delay(400);
-  myServo.write(90);
-  Serial.write("90 ");
-  delay(2000);
+  myServo.write(180);
+  delay(1000);
   //Up
-  myServo.write(50);
-  Serial.write("50 ");
-  delay(400);
-  myServo.write(90);
-  Serial.write("90 ");
-  delay(4000);
+  myServo.write(125);
+  delay(1000);
 }
 
 void Deposit()
 {
   //Up
-  myServo.write(90);
-  delay(500);
   myServo.write(45);
-  delay(450);
+  delay(1000);
+  //Rest Position
   myServo.write(90);
-  delay(2000);
-  //Down
-  myServo.write(155);
-  delay(500);
-  myServo.write(90);
-  delay(500);
+  delay(1000);
 }
 
 void CatchTwo(int m_Time = 1000)
