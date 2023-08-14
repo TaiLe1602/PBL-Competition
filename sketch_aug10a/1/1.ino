@@ -26,7 +26,7 @@ void loop() {
     turn = 0;
   }
  // if (turn < 0) {
-    moveRobot(-80, 170);
+    //moveRobot(-80, 170);
   //
   //else if (turn > 0) {
   //  moveRobot(170, -80);
