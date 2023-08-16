@@ -1,0 +1,55 @@
+/*
+===============================================================================================================
+QMC5883LCompass.h Library XYZ Example Sketch
+Learn more at [https://github.com/mprograms/QMC5883LCompass]
+
+This example shows how to get the XYZ values from the sensor.
+
+===============================================================================================================
+Release under the GNU General Public License v3
+[https://www.gnu.org/licenses/gpl-3.0.en.html]
+===============================================================================================================
+*/
+#include <QMC5883LCompass.h>
+
+QMC5883LCompass compass;
+
+void setup() {
+  Serial.begin(9600);
+  compass.init();
+  
+}
+
+void loop() {
+  int x, y, z;
+  
+  // Read compass values
+  compass.read();
+
+  // Return XYZ readings
+  x = compass.getX();
+  y = compass.getY();
+  z = compass.getZ();
+  
+  Serial.println(atan2(x,y)*180/PI);
+  delay(250);
+}
+void checkanglemove(){
+  float angle = atan2(x,y)*180/PI;
+  if(angle>0){
+    if((atan2(x,y)*180/PI)%90>45&&(atan2(x,y)*180/PI)%90<70){
+      Left();
+    }
+    if((atan2(x,y)*180/PI)%90<45&&(atan2(x,y)*180/PI)%90>20){
+      Right();
+    }
+  }
+ if(angle<0){
+    if((atan2(x,y)*180/PI+360)%90>45&&(atan2(x,y)*180/PI+360)%90<70){
+      Left();
+    }
+    if((atan2(x,y)*180/PI+360)%90<45&&(atan2(x,y)*180/PI+360)%90>20){
+      Right();
+    }
+  }
+}
