@@ -47,9 +47,7 @@ void setup() {
   pinMode(EchoPin, INPUT);
 }
 void loop() {
-  Forward(1000);
-  Serial.print("a");
-  /*while(!blocks){
+  while(!blocks){
     int i=0;
     while(i<13){
       Right(500);
@@ -73,9 +71,9 @@ void loop() {
   float heightball = heightCheck();
   while(heightball <100){
     Forward(2000);
-  }*/
-  
+  }
 }
+#pragma region wtf
 void Ultrasonicdistance(){
   digitalWrite(TrigPin, HIGH);
   digitalWrite(TrigPin, LOW);
@@ -183,6 +181,8 @@ void Stop() {
   digitalWrite(motorAEnablePin, LOW); // Disable Motor A
   digitalWrite(motorBEnablePin, LOW); // Disable Motor B
 }
+#pragma endregion
+
 float reversefigure(long x, long in_min, long in_max, long out_min, long out_max) {
   return (float)(x - in_min) * (out_max - out_min) / (float)(in_max - in_min) + out_min;
 }

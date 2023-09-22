@@ -1,5 +1,5 @@
-int TrigPin = 2;
-int EchoPin = 3;
+int TrigPin = 12;
+int EchoPin = 13;
 double distance, t;
 void setup(){
   Serial.begin(9600);
